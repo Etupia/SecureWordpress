@@ -9,6 +9,7 @@ RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp-cli
 
 # Install MySQL extension, as WP-CLI needs to access to Wordpress database
+#Rien
 RUN docker-php-ext-install mysqli
 
 # Add Makefile to scripts dir
