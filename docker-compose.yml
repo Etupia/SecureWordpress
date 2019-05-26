@@ -1,0 +1,59 @@
+version: '3'
+services:
+  wordpress_php:
+    build: ./docker/wordpress/php/
+    depends_on:
+      - wordpress_database
+    volumes:
+      - ./docker/wordpress/php/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
+      - ./wordpress:/var/www/wordpress
+    working_dir: /var/www/wordpress
+
+  wordpress_database:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: P%m59wms9tYfKUH+£6e2.9_*2Ew7B~xCcQ+J9a9W8.42;p}µeAVEs5=
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: TGwY52CkexyLgz€7fw@6S5_98+$6aYQ(X73k22a{6nrsXKn$@T:R8D+Z4mgE6#5]U<%}9€
+      MYSQL_PASSWORD: =Au&Q89Q/=#93U7TC42hrt?7KK>}SzhUT$X=7wm5q5_:4;S:4i2g]3bukDHm?8H2/md7B=agHGw6=8SJ6@c
+
+  wordpress_webserver:
+    image: nginx:1.14-alpine
+    depends_on:
+      - wordpress_php
+    volumes:
+      - ./docker/wordpress/nginx/app.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./wordpress:/var/www/wordpress
+    ports:
+      - 80:80
+
+  # wp_cli:
+  #   build: ./docker/wordpress/wp-cli/
+  #   volumes:
+  #     - ./wordpress:/var/www/wordpress
+  #   working_dir: /var/www/wordpress
+
+  wordpress_toolbox:
+    build: ./docker/wordpress/toolbox/
+    volumes:
+      - ./wordpress:/var/www/wordpress
+    working_dir: /var/www/wordpress
+    depends_on:
+      - wordpress_database
+    environment:
+      WORDPRESS_VERSION: 5.2.1
+      WORDPRESS_LOCALE: fr_FR
+      WORDPRESS_DB_HOST: wordpress_database
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: =Au&Q89Q/=#93U7TC42hrt?7KK>}SzhUT$X=7wm5q5_:4;S:4i2g]3bukDHm?8H2/md7B=agHGw6=8SJ6@c
+      WORDPRESS_WEBSITE_TITLE: "Lj83j=3Y4eCULitN/>7L&3z4_£u"
+      # WORDPRESS_WEBSITE_URL: "http://example.com"
+      # WORDPRESS_WEBSITE_URL_WITHOUT_HTTP: "example.com"
+      WORDPRESS_WEBSITE_URL: "http://localhost"
+      WORDPRESS_WEBSITE_URL_WITHOUT_HTTP: "localhost"
+      WORDPRESS_WEBSITE_POST_URL_STRUCTURE: "/%year%/%monthnum%/%day%/%postname%/"
+      WORDPRESS_ADMIN_USER: "€tµyqv23]zfaPXFrD49B3eP<€-p5].T594A-^J7K"
+      WORDPRESS_ADMIN_PASSWORD: "8q#yCH9x5789L564}=NdT-7U99rKg9,c<h92-~7z?qgAYQHUMM:3KdHµ>>sEu9($^6ck]4~Cx8iq[Be.gX4,4Dg(4b3M:b5?BTkdG8n,Y<,V"
+      WORDPRESS_ADMIN_EMAIL: "y2z64-3uxzw68tqmmlv@55Lh4Fp£HxxW5.sh"
